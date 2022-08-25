@@ -8,5 +8,7 @@
 
         string Tamaño { get; set; }
 
+        string ObtieneColor(Gato gato);
+
     }
 }

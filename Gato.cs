@@ -8,5 +8,9 @@
 
         public string Tamaño { get; set; }
 
+        public string ObtieneColor(Gato gato)
+        {
+            return gato.Color;
+        }
     }
 }

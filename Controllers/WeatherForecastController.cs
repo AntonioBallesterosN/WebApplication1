@@ -13,22 +13,29 @@ namespace WebApplication1.Controllers
 
         private readonly ILogger<WeatherForecastController> _logger;
 
-        public WeatherForecastController(ILogger<WeatherForecastController> logger)
+        private readonly IGato _gato;
+        private readonly IPerro _perro;
+
+        public WeatherForecastController(ILogger<WeatherForecastController> logger
+            , IGato gato
+            , IPerro perro)
         {
             _logger = logger;
+
+            _gato = gato;
+            _perro = perro;
         }
-
-
-        IGato gala = new Gato();
-        IPerro chocorrol = new Perro();
-
-        
-        
-
 
         [HttpGet(Name = "GetWeatherForecast")]
         public IEnumerable<WeatherForecast> Get()
         {
+            _gato.Raza = "Montes";
+            _gato.Color = "Negro";
+
+            Gato gatoDos = (Gato)_gato;
+
+           var color = _gato.ObtieneColor(gatoDos);
+
             return Enumerable.Range(1, 5).Select(index => new WeatherForecast
             {
                 Date = DateTime.Now.AddDays(index),
