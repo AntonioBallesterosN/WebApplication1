@@ -12,16 +12,13 @@ namespace WebApplication1.Controllers
         };
 
         private readonly ILogger<WeatherForecastController> _logger;
-
+        //
         private readonly IGato _gato;
         private readonly IPerro _perro;
 
-        public WeatherForecastController(ILogger<WeatherForecastController> logger
-            , IGato gato
-            , IPerro perro)
+        public WeatherForecastController(ILogger<WeatherForecastController> logger, IGato gato, IPerro perro)
         {
             _logger = logger;
-
             _gato = gato;
             _perro = perro;
         }
@@ -38,12 +35,13 @@ namespace WebApplication1.Controllers
 
             return Enumerable.Range(1, 5).Select(index => new WeatherForecast
             {
-                Date = DateTime.Now.AddDays(index),
+                _Date = DateTime.Now.AddDays(index),
                 TemperatureC = Random.Shared.Next(-20, 55),
                 Summary = Summaries[Random.Shared.Next(Summaries.Length)]
             })
             .ToArray();
         }
 
+       
     }
 }

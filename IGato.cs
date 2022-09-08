@@ -8,7 +8,11 @@
 
         string Tamaño { get; set; }
 
-        string ObtieneColor(Gato gato);
+        public string ObtieneRaza(Gato gato);
 
+        public string ObtieneColor(Gato gato);
+
+        public string ObtieneTamaño(Gato gato);
+ 
     }
 }
