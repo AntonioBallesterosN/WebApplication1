@@ -112,6 +112,7 @@ namespace WebApplication1.Controllers
             try
             {
                 var id1 = (id).ToString();
+
                 if (string.IsNullOrWhiteSpace(id1))
                 {
                     return BadRequest("Escribe una raza de perro por favor");
@@ -121,19 +122,21 @@ namespace WebApplication1.Controllers
 
                 return Ok(_razaGato);
             }
+            //Regresar mensaje de excepcion a la respuesta del servicio
             catch (Exception ex)
             {
-                return StatusCode(500);
+                return StatusCode(500, ex.Message);
             }
         }
 
         [Route("DeleteRazaPorNombre")]
         [HttpDelete]
-
         public async Task<ActionResult> DeleteRazaPorNombre(string raza)
         {
             try
             {
+                //Validar que el indice a eliminar este dentro del rango y en caso contrario mandar un 400
+
                 if (string.IsNullOrWhiteSpace(raza))
                 {
                     return BadRequest("Escribe una raza de perro por favor");
@@ -141,22 +144,20 @@ namespace WebApplication1.Controllers
 
                 SwitchDeleteRazaPorNombre(raza);
 
+                //En caso de que sea falso mandar un 400
+
                 return Ok(_razaGato);
             }
             catch (Exception ex)
             {
-                return StatusCode(500);
+                return StatusCode(500, ex.Message);
             }
         }
-        private async Task<List<string>> ListaRazaPerrosAsync()
-        {
-            var primeraTarea = await Task.Run(() => _razaGato);
 
-            return primeraTarea;
-        }
-
-        public async Task<ActionResult> SwitchDeleteRazaPorNombre(string raza)
+        private bool SwitchDeleteRazaPorNombre(string raza)
         {
+            var exito = true;
+
             switch (raza)
             {
                 case "Persa":
@@ -170,9 +171,11 @@ namespace WebApplication1.Controllers
 
                 case "Esfinge":
                     _razaGato.RemoveAt(3); break;
+        
+                    //Si el texto no coincide mandar un false
             }
 
-            return Ok(_razaGato);
+            return exito;
         }
     }
 }
