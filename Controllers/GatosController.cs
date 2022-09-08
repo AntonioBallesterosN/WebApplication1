@@ -142,9 +142,13 @@ namespace WebApplication1.Controllers
                     return BadRequest("Escribe una raza de perro por favor");
                 }
 
-                SwitchDeleteRazaPorNombre(raza);
+                var fueEliminado = SwitchDeleteRazaPorNombre(raza);
 
                 //En caso de que sea falso mandar un 400
+                if (!fueEliminado)
+                {
+                    //
+                }
 
                 return Ok(_razaGato);
             }
