@@ -2,6 +2,7 @@
 
 namespace WebApplication1.Controllers
 {
+    [Route("[controller]")]
     public class GatosController : Controller
     {
         private readonly List<string> _razaGato;
@@ -13,10 +14,17 @@ namespace WebApplication1.Controllers
                 "Persa", "Bengala", "Siames", "Esfinge"
             };
         }
-        
-        [Route("ObtenerRaza")]
+
+
         [HttpGet]
         public async Task<ActionResult> ObtenerRazaGatos()
+        {
+            return Ok(_razaGato);
+        }
+
+        [HttpGet]
+        [Route("ObtenerRaza")]
+        public async Task<ActionResult> ObtenerRazaGatosDos()
         {
             return Ok(_razaGato);
         }
@@ -175,7 +183,7 @@ namespace WebApplication1.Controllers
 
                 case "Esfinge":
                     _razaGato.RemoveAt(3); break;
-        
+
                     //Si el texto no coincide mandar un false
             }
 
