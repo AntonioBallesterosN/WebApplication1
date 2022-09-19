@@ -13,7 +13,7 @@ builder.Services.AddScoped<IGato, Gato>();
 
 builder.Services.AddScoped<IPerro, Perro>();
 
-
+builder.Services.AddScoped<IMetodosGato, MetodosGato>();
 
 var app = builder.Build();
 

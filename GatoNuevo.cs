@@ -4,7 +4,7 @@
     {
         public string ObtieneColor(Gato gato)
         {
-            return gato.Color;
+            return gato.Raza;
         }
 
         public bool TieneTodasLasPatas()
