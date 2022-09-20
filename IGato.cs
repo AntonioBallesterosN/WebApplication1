@@ -2,7 +2,7 @@
 {
     public interface IGato
     {
-        string Raza { get; set; }
+        string? Raza { get; set; }
 
         int Id { get; set; }
     }

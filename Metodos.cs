@@ -24,12 +24,13 @@
         public List<string> MetodoActualizarRazaPorPosicion(string razaNueva, int id, List<IGato> _listaraza)
         {
             ObtenerLista(_listaraza);
-
-            var elementoRemplazar = ListaRaza.First(i => i.Id == id);
-            var indexItem = ListaRaza.IndexOf(elementoRemplazar);
-            var intIndex = Int32.Parse(indexItem.ToString());
-            var razaNuevaItem = new Gato() { Raza = razaNueva, Id = indexItem };
-            ListaRaza[intIndex] = razaNuevaItem;
+            //busca coincidencias
+            //var elementoRemplazar = ListaRaza.First(i => i.Id == id);
+            ////devuelve el Id de la coincidencia 
+            //var indexItem = ListaRaza.IndexOf(elementoRemplazar);
+            
+            var razaNuevaItem = new Gato() { Raza = razaNueva, Id = id };
+            ListaRaza[id] = razaNuevaItem;
             var obtenerItemRazaDeLista = ListaRaza.Select(x => x.Raza).ToList();
 
             //ListaRaza.RemoveAt(id);
@@ -49,10 +50,10 @@
             {
                 //busca en la lista coincidencias 
                 var elementoRemplazar = ListaRaza.First(i => i.Raza == razaEnLista);
-                //extrae la posicion del elemento con el que hay coincidencia 
+                //devuelve la posicion del elemento con el que hay coincidencia 
                 var id = ListaRaza.IndexOf(elementoRemplazar);
-                var intId = Int32.Parse(id.ToString());
-                var razaNuevaItem = new Gato() { Raza = razaNueva, Id = intId };
+                //var intId = Int32.Parse(id.ToString());
+                var razaNuevaItem = new Gato() { Raza = razaNueva, Id = id };
                 //sustituye el elemento donde existe coincidencia "raza en lista" con el nuevo elemento que se indica en  "razaNuevaItem"
                 ListaRaza[id] = razaNuevaItem;
             }
@@ -69,8 +70,7 @@
         {
             ObtenerLista(_listaraza);
            
-            ListaRaza.RemoveAt(id);
-            ListaRaza.Add(new Gato() {Raza="chucho", Id = id, });
+            ListaRaza.RemoveAt(id);        
             var obtenerItemRazaDeLista = ListaRaza.Select(x => x.Raza).ToList();
 
             return obtenerItemRazaDeLista;    
