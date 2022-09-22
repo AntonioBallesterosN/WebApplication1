@@ -11,16 +11,16 @@
             return obtenerItemRazaDeLista;
         }
 
-        public List<string> MetodoAgregarRaza(string razaNueva, List<IGato> _listaraza)
-        {
+        //public List<string> MetodoAgregarRaza(string razaNueva, List<IGato> _listaraza)
+        //{
 
-            ObtenerLista(_listaraza);
+        //    ObtenerLista(_listaraza);
            
-            ListaRaza.Add(new Gato() { Raza = razaNueva});
-            var obtenerItemRazaDeLista = ListaRaza.Select(x => x.Raza).ToList();
+        //    ListaRaza.Add(new Gato() { Raza = razaNueva});
+        //    var obtenerItemRazaDeLista = ListaRaza.Select(x => x.Raza).ToList();
             
-            return obtenerItemRazaDeLista;
-        }
+        //    return obtenerItemRazaDeLista;
+        //}
         public List<string> MetodoActualizarRazaPorPosicion(string razaNueva, int id, List<IGato> _listaraza)
         {
             ObtenerLista(_listaraza);
@@ -30,7 +30,7 @@
             //var indexItem = ListaRaza.IndexOf(elementoRemplazar);
             
             var razaNuevaItem = new Gato() { Raza = razaNueva, Id = id };
-            ListaRaza[id] = razaNuevaItem;
+            //ListaRaza[id] = razaNuevaItem;
             var obtenerItemRazaDeLista = ListaRaza.Select(x => x.Raza).ToList();
 
             //ListaRaza.RemoveAt(id);
@@ -40,31 +40,31 @@
             return obtenerItemRazaDeLista;
         }
 
-        public bool MetodoActualizarRazaPorNombre(string razaEnLista, string razaNueva, List<IGato> _listaraza)
-        {
-            var exito = true;
+        //public bool MetodoActualizarRazaPorNombre(string razaEnLista, string razaNueva, List<IGato> _listaraza)
+        //{
+        //    var exito = true;
 
-            ObtenerLista(_listaraza);
+        //    ObtenerLista(_listaraza);
             
-            try
-            {
-                //busca en la lista coincidencias 
-                var elementoRemplazar = ListaRaza.First(i => i.Raza == razaEnLista);
-                //devuelve la posicion del elemento con el que hay coincidencia 
-                var id = ListaRaza.IndexOf(elementoRemplazar);
-                //var intId = Int32.Parse(id.ToString());
-                var razaNuevaItem = new Gato() { Raza = razaNueva, Id = id };
-                //sustituye el elemento donde existe coincidencia "raza en lista" con el nuevo elemento que se indica en  "razaNuevaItem"
-                ListaRaza[id] = razaNuevaItem;
-            }
-            catch
-            {
-                exito = false;
-                return exito;
-            }
+        //    try
+        //    {
+        //        //busca en la lista coincidencias 
+        //        var elementoRemplazar = ListaRaza.First(i => i.Raza == razaEnLista);
+        //        //devuelve la posicion del elemento con el que hay coincidencia 
+        //        var id = ListaRaza.IndexOf(elementoRemplazar);
+        //        //var intId = Int32.Parse(id.ToString());
+        //        var razaNuevaItem = new Gato() { Raza = razaNueva, Id = id };
+        //        //sustituye el elemento donde existe coincidencia "raza en lista" con el nuevo elemento que se indica en  "razaNuevaItem"
+        //        ListaRaza[id] = razaNuevaItem;
+        //    }
+        //    catch
+        //    {
+        //        exito = false;
+        //        return exito;
+        //    }
             
-            return exito;
-        }
+        //    return exito;
+        //}
 
         public List<string> MetodoDeleteRazaPorPosicion(int id, List<IGato> _listaraza)
         {

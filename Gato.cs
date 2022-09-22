@@ -1,6 +1,6 @@
 ﻿namespace WebApplication1
 {
-    public class Gato : IGato
+    public class Gato
     {
         public string? Raza { get; set; }
 

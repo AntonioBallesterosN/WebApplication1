@@ -9,7 +9,7 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-builder.Services.AddScoped<IGato, Gato>();
+builder.Services.AddScoped<IGatoService, GatoService>();
 
 builder.Services.AddScoped<IPerro, Perro>();
 
