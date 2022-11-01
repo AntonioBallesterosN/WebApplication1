@@ -26,6 +26,8 @@
 
             return gatos;
         }
+
+        //Cambiar nombre de metodo por GetById
         public bool GetId(int id)
         {
             var exito = false;
@@ -33,6 +35,7 @@
             try
             {
                 var listaDeRazas = ObtenerRazas();
+                //No se usa la variable
                 var buscaId = listaDeRazas.First(i => i.Id == id);
             }
             catch
@@ -40,10 +43,10 @@
                 exito = true;  
             }
             return exito;
-        }
+        }//Dejar un espacio en blanco entre cada metodo
         public bool MetodoAgregarRaza(string razaNueva)
         {
-            
+            //Corregir tomando de ejemplo metodo linea 109 
             var seCambio = true;
             var listaDeRazas = ObtenerRazas();
             listaDeRazas.Add(new Gato() { Raza = razaNueva, Id = 4});
@@ -53,6 +56,7 @@
 
         public bool MetodoActualizarRazaPorNombre(string razaEnLista, string razaNueva)
         {
+            //Corregir tomando de ejemplo metodo linea 109 
             var exito = true;
             var listaDeRazas = ObtenerRazas();
            
@@ -72,7 +76,7 @@
 
             return exito;
         }
-
+        //Cambiar nombre de parametro
         public bool MetodoDeleteRazaPorPosicion(int id)
         {
             var exito = true;
@@ -105,6 +109,9 @@
 
         public bool MetodoActualizarRazaPorPosicion(int posicion, string nuevaRaza)
         {
+            //Eliminar variable que no se usa
+            //Cambiar tipo bool por Gato
+            //Concluir metodo
             var exito = true;
             var listaDeRazas = ObtenerRazas();
            

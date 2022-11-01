@@ -5,6 +5,7 @@ namespace WebApplication1.Controllers
     [Route("[controller]")]
     public class GatosController : Controller
     {
+        //Eliminar variable que no se usa
         private readonly List<Gato> _razaGato;
         private readonly IGatoService _gatoService;
         public GatosController(IGatoService gatoService)
