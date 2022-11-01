@@ -5,22 +5,10 @@ namespace WebApplication1.Controllers
     [Route("[controller]")]
     public class GatosController : Controller
     {
-        private readonly List<IGato> _razaGato;
-        private readonly IMetodosGato _metodosGato;
+        private readonly List<Gato> _razaGato;
         private readonly IGatoService _gatoService;
-        public GatosController(IMetodosGato metodos
-            
-            , IGatoService gatoService)
+        public GatosController(IGatoService gatoService)
         {
-            _metodosGato = metodos;
-            _gatoService = gatoService;
-            //_razaGato  = new List<IGato>()
-            //{
-            //    new Gato {Raza = "Persa", Id = 0},
-            //    new Gato {Raza = "Bengala",Id = 1},
-            //    new Gato {Raza = "Siames",Id = 2},
-            //    new Gato {Raza = "Esfinge",Id = 3}
-            //};
             _gatoService = gatoService;
         }
 
@@ -40,31 +28,9 @@ namespace WebApplication1.Controllers
             }
         }
 
-        //[Route("AgregarRazaGato")]
-        //[HttpPost]
-        //public async Task<ActionResult> AgregarRaza(string raza)
-        //{
-        //    try
-        //    {
-        //        if (string.IsNullOrWhiteSpace(raza))
-        //        {
-        //            return BadRequest("Escribe una raza de gato por favor");
-        //        }
-
-        //        var listaActualizada = _metodosGato.MetodoAgregarRaza(raza, _razaGato);
-
-        //        return Ok(listaActualizada);
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        return StatusCode(500, ex.Message);
-        //    }
-        //}
-
-        [Route("ActualizarRazaPorPosicion")]
-        [HttpPut]
-
-        public async Task<ActionResult> ActualizarRazaPorPosicion(string raza, int id)
+        [Route("AgregarRazaGato")]
+        [HttpPost]
+        public async Task<ActionResult> AgregarRaza(string raza)
         {
             try
             {
@@ -73,12 +39,34 @@ namespace WebApplication1.Controllers
                     return BadRequest("Escribe una raza de gato por favor");
                 }
 
-                if (id >= 0 && id > 3)
+                var resultado = _gatoService.MetodoAgregarRaza(raza);
+
+                return Ok(resultado);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, ex.Message);
+            }
+        }
+
+        [Route("ActualizarRazaPorPosicion")]
+        [HttpPut]
+
+        public async Task<ActionResult> ActualizarRazaPorPosicion(int posicion, string nuevaRaza)
+        {
+            try
+            {
+                if (string.IsNullOrWhiteSpace(nuevaRaza))
+                {
+                    return BadRequest("Escribe una raza de gato por favor");
+                }
+
+                if (posicion >= 0 && posicion > 3)
                 {
                     return BadRequest("Escribe un numero dentro del rango 0 y 3 porfavor");
                 }
 
-                var listaActualizada = _metodosGato.MetodoActualizarRazaPorPosicion(raza, id, _razaGato);
+                var listaActualizada = _gatoService.MetodoActualizarRazaPorPosicion(posicion,nuevaRaza);
 
                 return Ok(listaActualizada);
             }
@@ -89,34 +77,32 @@ namespace WebApplication1.Controllers
         }
 
         //Adecuar de acuerdo a correciones
-        //[Route("ActualizarRazaPorNombre")]
-        //[HttpPut]
+        [Route("ActualizarRazaPorNombre")]
+        [HttpPut]
 
-        //public async Task<ActionResult> ActualizarRazaPorNombre(string razaEnLista, string razaNueva)
-        //{
-        //    try
-        //    {
-        //        if (string.IsNullOrWhiteSpace(razaNueva))
-        //        {
-        //            return BadRequest("Escribe una raza de gato por favor");
-        //        }
+        public async Task<ActionResult> ActualizarRazaPorNombre(string razaEnLista, string razaNueva)
+        {
+            try
+            {
+                if (string.IsNullOrWhiteSpace(razaNueva))
+                {
+                    return BadRequest("Escribe una raza de gato por favor");
+                }
 
-        //        var seActualizo = _metodosGato.MetodoActualizarRazaPorNombre(razaEnLista, razaNueva, _razaGato);
-        //        var listaRaza = _metodosGato.ObtenerLista(_razaGato);
+                var seActualizo = _gatoService.MetodoActualizarRazaPorNombre(razaEnLista, razaNueva);
                 
+                if (!seActualizo)
+                {
+                    return BadRequest("Escribe una raza de gato en lista por favor");
+                }
 
-        //        if (!seActualizo)
-        //        {
-        //            return BadRequest("Escribe una raza de gato en lista por favor");
-        //        }
-
-        //        return Ok(listaRaza);
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        return StatusCode(500, ex.Message);
-        //    }
-        //}
+                return Ok(seActualizo);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, ex.Message);
+            }
+        }
 
         [Route("DeleteRazaPorPosicion")]
         [HttpDelete]
@@ -125,27 +111,16 @@ namespace WebApplication1.Controllers
         {
             try
             {
-                //Validar que el indice a eliminar este dentro del rango y en caso contrario mandar un 400
-
                 if (id >= 0 && id > 3)
                 {
                     return BadRequest("Escribe un numero dentro del rango 0 y 3 porfavor");
                 }
 
-                //eliminar raza
-                var seBorro = _metodosGato.MetodoDeleteRazaPorPosicion(id, _razaGato);
+                var existe = _gatoService.MetodoDeleteRazaPorPosicion(id);
 
-                //comprobar
-                //var existe = _metodosGato.GetRaza(id):
-                //si es true no se realizo la eliminacion, si es false se realizo
-
-                //no aplica
-                var listaRaza = _metodosGato.ObtenerLista(_razaGato);
-                
-
-                return Ok(listaRaza);
+                return Ok(existe);
             }
-            //Regresar mensaje de excepcion a la respuesta del servicio
+           
             catch (Exception ex)
             {
                 return StatusCode(500, ex.Message);
@@ -163,17 +138,14 @@ namespace WebApplication1.Controllers
                     return BadRequest("Escribe una raza de gato por favor");
                 }
 
-                var seBorro = _metodosGato.MetodoDeleteRazaPorNombre(raza, _razaGato);
-                var listaRaza = _metodosGato.ObtenerLista(_razaGato);
+                var seBorro = _gatoService.MetodoDeleteRazaPorNombre(raza);
                 
-
-                //En caso de que sea falso mandar un 400
                 if (!seBorro)
                 {
                     return BadRequest("Escribe una raza de gato en lista por favor");
                 }
 
-                return Ok(listaRaza);
+                return Ok(seBorro);
             }
             catch (Exception ex)
             {

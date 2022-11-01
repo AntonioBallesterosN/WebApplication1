@@ -12,14 +12,11 @@ namespace WebApplication1.Controllers
         };
 
         private readonly ILogger<WeatherForecastController> _logger;
-        private readonly IGato _gato;
-        private readonly IPerro _perro;
+       
 
-        public WeatherForecastController(ILogger<WeatherForecastController> logger, IGato gato, IPerro perro)
+        public WeatherForecastController(ILogger<WeatherForecastController> logger, Gato gato, Perro perro)
         {
             _logger = logger;
-            _gato = gato;
-            _perro = perro;
         }
 
         [HttpGet(Name = "GetWeatherForecast")]

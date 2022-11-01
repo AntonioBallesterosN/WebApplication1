@@ -11,9 +11,7 @@ builder.Services.AddSwaggerGen();
 
 builder.Services.AddScoped<IGatoService, GatoService>();
 
-builder.Services.AddScoped<IPerro, Perro>();
 
-builder.Services.AddScoped<IMetodosGato, MetodosGato>();
 
 var app = builder.Build();
 

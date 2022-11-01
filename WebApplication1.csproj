@@ -10,12 +10,6 @@
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.2.3" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Compile Update="Metodos.cs">
-      <CustomToolNamespace>MetodosGato.cs</CustomToolNamespace>
-    </Compile>
-  </ItemGroup>
-
   <ProjectExtensions><VisualStudio><UserProperties properties_4launchsettings_1json__JsonSchema="" /></VisualStudio></ProjectExtensions>
 
 </Project>

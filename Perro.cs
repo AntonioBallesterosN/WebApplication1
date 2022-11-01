@@ -1,6 +1,6 @@
 ﻿namespace WebApplication1
 {
-    public class Perro:IPerro
+    public class Perro
     {
         public string Raza { get; set; }
 
