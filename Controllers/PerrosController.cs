@@ -2,32 +2,34 @@
 
 namespace WebApplication1.Controllers
 {
-    [ApiController]
     [Route("[controller]")]
-
     public class PerrosController : Controller
     {
-        private readonly List<string> _razaPerros;
-
-        public PerrosController()
+        private readonly IPerroService _perroService;
+        public PerrosController(IPerroService perroService)
         {
-            _razaPerros = new List<string>()
-            {
-                "Galgo","Dalmata","Dingo","Terrierr"
-            };
+            _perroService = perroService;
         }
 
-        [Route("ObtenerPerros")]
+        [Route("ObtenerRaza")]
         [HttpGet]
-
-        public async Task<ActionResult> ObtenerRazaPerros()
+        public async Task<ActionResult> ObtenerRaza()
         {
-            return Ok(_razaPerros);
+            try
+            {
+                var dogList = _perroService.ObtenerRazas();
+
+                return Ok(dogList);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, ex.Message);
+            }
         }
 
         [Route("AgregarRazaPerro")]
         [HttpPost]
-        public async Task<ActionResult> AgregarRazaPerro(string raza)
+        public async Task<ActionResult> AgregarRaza(string raza)
         {
             try
             {
@@ -36,38 +38,40 @@ namespace WebApplication1.Controllers
                     return BadRequest("Escribe una raza de perro por favor");
                 }
 
-                _razaPerros.Add(raza);
+                var resultado = _perroService.MetodoAgregarRaza(raza);
 
-                return Ok(_razaPerros);
+                return Ok(resultado);
             }
             catch (Exception ex)
             {
-                return StatusCode(500);
+                return StatusCode(500, ex.Message);
             }
         }
-
 
         [Route("ActualizarRazaPorPosicion")]
         [HttpPut]
 
-        public async Task<ActionResult> ActualizarRazaPorPosicion(string raza, int id)
+        public async Task<ActionResult> ActualizarRazaPorPosicion(int posicion, string nuevaRaza)
         {
             try
             {
-
-                if (string.IsNullOrWhiteSpace(raza))
+                if (string.IsNullOrWhiteSpace(nuevaRaza))
                 {
                     return BadRequest("Escribe una raza de perro por favor");
                 }
 
-                _razaPerros.RemoveAt(id);
-                _razaPerros.Insert(id, raza);
+                if (posicion >= 0 && posicion > 3)
+                {
+                    return BadRequest("Escribe un numero dentro del rango 0 y 3 porfavor");
+                }
 
-                return Ok(_razaPerros);
+                var listaActualizada = _perroService.MetodoActualizarRazaPorPosicion(posicion, nuevaRaza);
+
+                return Ok(listaActualizada);
             }
             catch (Exception ex)
             {
-                return StatusCode(500);
+                return StatusCode(500, ex.Message);
             }
         }
 
@@ -80,62 +84,49 @@ namespace WebApplication1.Controllers
             {
                 if (string.IsNullOrWhiteSpace(razaNueva))
                 {
-                    return BadRequest("Escribe una raza de perro por favor");
+                    return BadRequest("Escribe una raza de gato por favor");
                 }
 
-                switch (razaEnLista)
+                var seActualizo = _perroService.MetodoActualizarRazaPorNombre(razaEnLista, razaNueva);
+
+                if (!seActualizo)
                 {
-                    case "Galgo":
-                        _razaPerros.RemoveAt(0);
-                        _razaPerros.Insert(0, razaNueva); break;
-
-                    case "Dalmata":
-                        _razaPerros.RemoveAt(1);
-                        _razaPerros.Insert(1, razaNueva); break;
-
-                    case "Dingo":
-                        _razaPerros.RemoveAt(2);
-                        _razaPerros.Insert(2, razaNueva); break;
-
-                    case "Terrierr":
-                        _razaPerros.RemoveAt(3);
-                        _razaPerros.Insert(3, razaNueva); break;
+                    return BadRequest("Escribe una raza de gato en lista por favor");
                 }
 
-                return Ok(_razaPerros);
+                return Ok(seActualizo);
             }
             catch (Exception ex)
             {
-                return StatusCode(500);
+                return StatusCode(500, ex.Message);
             }
         }
 
         [Route("DeleteRazaPorPosicion")]
         [HttpDelete]
 
-        public async Task<ActionResult> DeleteRazaPorPosicion(int id)
+        public async Task<ActionResult> DeleteRazaPorPosicion(int posicion)
         {
             try
             {
-                var id1 = (id).ToString();
-                if (string.IsNullOrWhiteSpace(id1))
+                if (posicion >= 0 && posicion > 3)
                 {
-                    return BadRequest("Escribe una raza de perro por favor");
+                    return BadRequest("Escribe un numero dentro del rango 0 y 3 porfavor");
                 }
 
-                _razaPerros.RemoveAt(id);
+                var existe = _perroService.MetodoDeleteRazaPorPosicion(posicion);
 
-                return Ok(_razaPerros);
+                return Ok(existe);
             }
+
             catch (Exception ex)
             {
-                return StatusCode(500);
+                return StatusCode(500, ex.Message);
             }
         }
 
         [Route("DeleteRazaPorNombre")]
         [HttpDelete]
-
         public async Task<ActionResult> DeleteRazaPorNombre(string raza)
         {
             try
@@ -145,27 +136,20 @@ namespace WebApplication1.Controllers
                     return BadRequest("Escribe una raza de perro por favor");
                 }
 
-                switch (raza)
+                var seBorro = _perroService.MetodoDeleteRazaPorNombre(raza);
+
+                if (!seBorro)
                 {
-                    case "Galgo":
-                        _razaPerros.RemoveAt(0); break;
-
-                    case "Dalmata":
-                        _razaPerros.RemoveAt(1); break;
-
-                    case "Dingo":
-                        _razaPerros.RemoveAt(2); break;
-
-                    case "Terrierr":
-                        _razaPerros.RemoveAt(3); break;
+                    return BadRequest("Escribe una raza de perro en lista por favor");
                 }
 
-                return Ok(_razaPerros);
+                return Ok(seBorro);
             }
             catch (Exception ex)
             {
-                return StatusCode(500);
+                return StatusCode(500, ex.Message);
             }
         }
     }
 }
+

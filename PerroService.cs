@@ -1,34 +1,32 @@
 ﻿namespace WebApplication1
 {
-    public class GatoService : IGatoService
+    public class PerroService: IPerroService
     {
-        public List<Gato> ObtenerRazas()
+        public List<Perro> ObtenerRazas()
         {
-            var gatos = new List<Gato>()
+            var perros = new List<Perro>()
             {
-                new Gato {
-                    Raza = "Persa"
+                new Perro {
+                    Raza = "SharPei"
                     , Id = 0
                 },
-                new Gato {
-                    Raza = "Bengala"
+                new Perro {
+                    Raza = "Pug"
                     , Id = 1
                 },
-                new Gato {
-                    Raza = "Siames"
+                new Perro {
+                    Raza = "Chihuahua"
                     ,Id = 2
                 },
-                new Gato {
-                    Raza = "Esfinge"
+                new Perro {
+                    Raza = "Xolo"
                     ,Id = 3
                 }
             };
 
-            return gatos;
+            return perros;
         }
 
-        //Cambiar nombre de metodo por GetById 
-        //coregido
         public bool GetById(int id)
         {
             var exito = false;
@@ -40,28 +38,25 @@
             }
             catch
             {
-                exito = true;  
+                exito = true;
             }
             return exito;
-        }//Dejar un espVacio en blanco entre cada metodo
-        //corregido
+        }
+
         public bool MetodoAgregarRaza(string razaNueva)
         {
-            //Corregir tomando de ejemplo metodo linea 109 ??
             var seCambio = true;
             var listaDeRazas = ObtenerRazas();
-            listaDeRazas.Add(new Gato() { Raza = razaNueva, Id = 4});
-            
+            listaDeRazas.Add(new Perro() { Raza = razaNueva, Id = 4 });
+
             return seCambio;
         }
 
         public bool MetodoActualizarRazaPorNombre(string razaEnLista, string nuevaRaza)
         {
-            //Corregir tomando de ejemplo metodo linea 109 
-            //corregido
             var exito = true;
             var listaDeRazas = ObtenerRazas();
-           
+
             try
             {
                 var elementoRemplazar = listaDeRazas.First(i => i.Raza == razaEnLista);
@@ -76,14 +71,13 @@
 
             return exito;
         }
-        //Cambiar nombre de parametro
-        //corregido
+
         public bool MetodoDeleteRazaPorPosicion(int posicion)
         {
             var exito = true;
             var listaDeRazas = ObtenerRazas();
             listaDeRazas.RemoveAt(posicion);
-            
+
             return exito;
         }
 
@@ -107,16 +101,11 @@
             return exito;
         }
 
-        public List<Gato> MetodoActualizarRazaPorPosicion(int posicion, string nuevaRaza)
+        public List<Perro> MetodoActualizarRazaPorPosicion(int posicion, string nuevaRaza)
         {
-            //Eliminar variable que no se usa
-            //Cambiar tipo bool por Gato
-            //Concluir metodo
-            //coregido
-           
             var listaDeRazas = ObtenerRazas();
             listaDeRazas[posicion].Raza = nuevaRaza;
-            
+
             return listaDeRazas;
         }
     }

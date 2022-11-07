@@ -10,7 +10,8 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 builder.Services.AddScoped<IGatoService, GatoService>();
-
+builder.Services.AddScoped<IPerroService, PerroService>();
+builder.Services.AddScoped<IJuegosService, JuegosService>();
 
 
 var app = builder.Build();

@@ -6,7 +6,7 @@ namespace WebApplication1.Controllers
     public class GatosController : Controller
     {
         //Eliminar variable que no se usa
-        private readonly List<Gato> _razaGato;
+        //corregido
         private readonly IGatoService _gatoService;
         public GatosController(IGatoService gatoService)
         {
@@ -77,7 +77,6 @@ namespace WebApplication1.Controllers
             }
         }
 
-        //Adecuar de acuerdo a correciones
         [Route("ActualizarRazaPorNombre")]
         [HttpPut]
 
@@ -108,16 +107,16 @@ namespace WebApplication1.Controllers
         [Route("DeleteRazaPorPosicion")]
         [HttpDelete]
 
-        public async Task<ActionResult> DeleteRazaPorPosicion(int id)
+        public async Task<ActionResult> DeleteRazaPorPosicion(int posicion)
         {
             try
             {
-                if (id >= 0 && id > 3)
+                if (posicion >= 0 && posicion > 3)
                 {
                     return BadRequest("Escribe un numero dentro del rango 0 y 3 porfavor");
                 }
 
-                var existe = _gatoService.MetodoDeleteRazaPorPosicion(id);
+                var existe = _gatoService.MetodoDeleteRazaPorPosicion(posicion);
 
                 return Ok(existe);
             }

@@ -2,30 +2,31 @@
 
 namespace WebApplication1.Controllers
 {
-    [ApiController]
     [Route("[controller]")]
-
     public class JuegosController : Controller
     {
-        private readonly List<string> _juegos;
-
-        public JuegosController()
+        private readonly IJuegosService _juegosService;
+        public JuegosController(IJuegosService juegosService)
         {
-            _juegos = new List<string>()
-            {
-                "Halo", "Doom", "AoE", "Oblivion"
-            };
+            _juegosService = juegosService;
         }
 
-        [Route("ObtenerJuegos")]
+        [Route("ObtenerJuego")]
         [HttpGet]
-        public async Task<ActionResult> ObtenerJuegos()
+        public async Task<ActionResult> ObtenerJuego()
         {
-            var juegos = await ListaJuegosAsync();
+            try
+            {
+                var gameList = _juegosService.ObtenerJuegos();
 
-            return Ok(juegos);
+                return Ok(gameList);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, ex.Message);
+            }
         }
-       
+
         [Route("AgregarJuego")]
         [HttpPost]
         public async Task<ActionResult> AgregarJuego(string juego)
@@ -37,39 +38,43 @@ namespace WebApplication1.Controllers
                     return BadRequest("Escribe un juego por favor");
                 }
 
-                _juegos.Add(juego);
+                var resultado = _juegosService.MetodoAgregarJuego(juego);
 
-                return Ok(_juegos);
+                return Ok(resultado);
             }
             catch (Exception ex)
             {
-                return StatusCode(500);
+                return StatusCode(500, ex.Message);
             }
         }
 
         [Route("ActualizarJuegoPorPosicion")]
         [HttpPut]
 
-        public async Task<ActionResult> ActualizarJuegoPorPosicion(string juego, int id)
+        public async Task<ActionResult> ActualizarJuegoPorPosicion(int posicion, string juegoNuevo)
         {
             try
             {
-                if (string.IsNullOrWhiteSpace(juego))
+                if (string.IsNullOrWhiteSpace(juegoNuevo))
                 {
                     return BadRequest("Escribe un juego por favor");
                 }
-               
-                _juegos.RemoveAt(id);
-                _juegos.Insert(id, juego);
 
-                return Ok(_juegos);
+                if (posicion >= 0 && posicion > 3)
+                {
+                    return BadRequest("Escribe un numero dentro del rango 0 y 3 porfavor");
+                }
+
+                var listaActualizada = _juegosService.MetodoActualizarJuegoPorPosicion(posicion, juegoNuevo);
+
+                return Ok(listaActualizada);
             }
             catch (Exception ex)
             {
-                return StatusCode(500);
+                return StatusCode(500, ex.Message);
             }
         }
-        
+
         [Route("ActualizarJuegoPorNombre")]
         [HttpPut]
 
@@ -77,119 +82,74 @@ namespace WebApplication1.Controllers
         {
             try
             {
-                if (string.IsNullOrWhiteSpace(juegoEnLista))
+                if (string.IsNullOrWhiteSpace(juegoNuevo))
                 {
                     return BadRequest("Escribe un juego por favor");
                 }
 
-                switch (juegoEnLista)
+                var seActualizo = _juegosService.MetodoActualizarJuegoPorNombre(juegoEnLista, juegoNuevo);
+
+                if (!seActualizo)
                 {
-                    case "Halo":
-                        _juegos.RemoveAt(0);
-                        _juegos.Insert(0, juegoNuevo); break;
-
-                    case "Doom":
-                        _juegos.RemoveAt(1);
-                        _juegos.Insert(1, juegoNuevo); break;
-
-                    case "AoE":
-                        _juegos.RemoveAt(2);
-                        _juegos.Insert(2, juegoNuevo); break;
-
-                    case "Oblivion":
-                        _juegos.RemoveAt(3);
-                        _juegos.Insert(3, juegoNuevo); break;
-
+                    return BadRequest("Escribe un juego en lista por favor");
                 }
 
-                return Ok(_juegos);
+                return Ok(seActualizo);
             }
             catch (Exception ex)
             {
-                return StatusCode(500);
+                return StatusCode(500, ex.Message);
             }
         }
 
-        [Route("DeleteJuegosPorPosicion")]
+        [Route("DeleteJuegoPorPosicion")]
         [HttpDelete]
 
-        public async Task<ActionResult> DeleteJuegosPorPosicion(int id)
+        public async Task<ActionResult> DeleteJuegoPorPosicion(int posicion)
         {
             try
             {
-                var id1 = (id).ToString();
-                if (string.IsNullOrWhiteSpace(id1))
+                if (posicion >= 0 && posicion > 3)
                 {
-                    return BadRequest("Escribe un juego por favor");
+                    return BadRequest("Escribe un numero dentro del rango 0 y 3 porfavor");
                 }
 
-                _juegos.RemoveAt(id);
+                var existe = _juegosService.MetodoDeleteJuegoPorPosicion(posicion);
 
-                return Ok(_juegos);
+                return Ok(existe);
             }
+
             catch (Exception ex)
             {
-                return StatusCode(500);
+                return StatusCode(500, ex.Message);
             }
-
         }
 
-        [Route("DeleteJuegosPorNombre")]
+        [Route("DeleteJuegoPorNombre")]
         [HttpDelete]
-
-        public async Task<ActionResult> DeleteJuegosPorNombre(string juego)
+        public async Task<ActionResult> DeleteJuegoPorNombre(string juego)
         {
             try
             {
-
                 if (string.IsNullOrWhiteSpace(juego))
                 {
                     return BadRequest("Escribe un juego por favor");
                 }
 
-                switch(juego)
+                var seBorro = _juegosService.MetodoDeleteJuegoPorNombre(juego);
+
+                if (!seBorro)
                 {
-                    case "Halo":
-                        _juegos.RemoveAt(0); break;
-
-                    case "Doom":
-                        _juegos.RemoveAt(1); break;
-
-                    case "AoE":
-                        _juegos.RemoveAt(2); break;
-
-                    case "Oblivion":
-                        _juegos.RemoveAt(3); break;
+                    return BadRequest("Escribe un juego en lista por favor");
                 }
 
-                return Ok(_juegos);
+                return Ok(seBorro);
             }
             catch (Exception ex)
             {
-                return StatusCode(500);
+                return StatusCode(500, ex.Message);
             }
-        }
-
-        //Método Asíncrono
-        private async Task<List<string>> ListaJuegosAsync()
-        {
-            var primeraTarea = await Task.Run(() => _juegos);
-
-            return primeraTarea;
-        }
-
-        //Método Síncrono
-        private List<string> ListaJuegos()
-        {
-            return _juegos;
-        }
-
-        //Método Void Asíncrono
-        private async Task MetodoVoid()
-        {
-            var cadena = "Hola";
-
-            var tarea = await Task.Run(() => cadena);
         }
     }
 }
+

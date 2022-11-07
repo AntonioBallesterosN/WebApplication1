@@ -1,8 +1,8 @@
 ﻿namespace WebApplication1
 {
-    public class Perro
+    public class Juegos
     {
-        public string? Raza { get; set; }
+        public string? Juego { get; set; }
 
         public int Id { get; set; }
     }

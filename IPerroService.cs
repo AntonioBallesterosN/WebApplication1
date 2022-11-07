@@ -1,9 +1,9 @@
 ﻿namespace WebApplication1
 {
-    public interface IGatoService
+    public interface IPerroService
     {
-        List<Gato> ObtenerRazas();
-      
+        List<Perro> ObtenerRazas();
+
         bool GetById(int id);
 
         bool MetodoAgregarRaza(string razaNueva);
@@ -14,6 +14,6 @@
 
         bool MetodoDeleteRazaPorNombre(string raza);
 
-        List<Gato> MetodoActualizarRazaPorPosicion(int posicion, string nuevaRaza);
+        List<Perro> MetodoActualizarRazaPorPosicion(int posicion, string nuevaRaza);
     }
 }
